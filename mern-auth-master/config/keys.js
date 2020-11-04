@@ -1,4 +1,4 @@
 module.exports = {
-  mongoURI: "YOUR_MONGO_URI_HERE",
+  mongoURI: "mongodb+srv://pdcUottawa:DisneyMouse@OM@pdctestdatabase.qzlin.mongodb.net/<dbname>?retryWrites=true&w=majority",
   secretOrKey: "secret"
 };

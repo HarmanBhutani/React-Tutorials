@@ -1,24 +1,34 @@
 import React, { useState, useContext } from "react";
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 import { useHistory } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 import Axios from "axios";
 import ErrorNotice from "../misc/ErrorNotice";
+var Select = require('react-select');
+
+
 
 export default function Register() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [passwordCheck, setPasswordCheck] = useState();
-  const [displayName, setDisplayName] = useState();
+  const [courseName, setcourseName] = useState();
   const [error, setError] = useState();
-
+  // const options = [
+  //   'one', 'two', 'three'
+  // ];
+  // const defaultOption = options[0];
+  var num = [1,2,3,4,5]
   const { setUserData } = useContext(UserContext);
   const history = useHistory();
+
 
   const submit = async (e) => {
     e.preventDefault();
 
     try {
-      const newUser = { email, password, passwordCheck, displayName };
+      const newUser = { email, password, passwordCheck, courseName };
       await Axios.post("http://localhost:5000/users/register", newUser);
       const loginRes = await Axios.post("http://localhost:5000/users/login", {
         email,
@@ -35,14 +45,24 @@ export default function Register() {
     }
   };
 
+  const [category, setCategory] = React.useState('');
+
+  const handleCategoryChange = (category) => {
+     setCategory(category);
+     console.log(category);
+ }
+ 
+
+  var num = [1,2,3,4,5]
+
   return (
     <div className="page">
-      <h2>Register</h2>
+      <h2>GES-PDC Member Registartion form</h2>
       {error && (
         <ErrorNotice message={error} clearError={() => setError(undefined)} />
       )}
       <form className="form" onSubmit={submit}>
-        <label htmlFor="register-email">Email</label>
+        <label htmlFor="register-email">Please enter uottawa student email</label>
         <input
           id="register-email"
           type="email"
@@ -61,12 +81,26 @@ export default function Register() {
           onChange={(e) => setPasswordCheck(e.target.value)}
         />
 
-        <label htmlFor="register-display-name">Display name</label>
+{/* <select name="select" onChange={this.num}>
+  {num.map(function(n) { 
+      return (<option value={n} selected={this.state.selected === n}>{n}</option>);
+  })}
+</select> */}
+
+<select name="category" value={category} onChange={event => handleCategoryChange(event.target.value)}>
+            <option id="0" >Personal</option>
+            <option id="1" >Work</option>
+        </select>
+
+        <label htmlFor="register-display-name">Course Name</label>
         <input
           id="register-display-name"
           type="text"
-          onChange={(e) => setDisplayName(e.target.value)}
+          onChange={(e) => setcourseName(e.target.value)}
         />
+
+         
+        
 
         <input type="submit" value="Register" />
       </form>
